@@ -136,22 +136,14 @@ public class SavingAccountTest {
     //----------------------------------------------------------------------------------------------------------------------------\\
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, 0, 1, 999, 1000, 1001})
-    public void paymentTest(int amount) {
+    @ValueSource(ints = {1, 999, 1000})
+    public void paymentSuccessTest(int amount) {
 
         SavingAccount account = new SavingAccount(initialBalance, minBalance, maxBalance, rate);
 
-        boolean expectedResult;
-        int expectedBalance;
+        boolean expectedResult = true;
+        int expectedBalance = initialBalance - amount;
 
-        if ((initialBalance - amount) < minBalance || amount <= 0) {
-
-            expectedResult = false;
-            expectedBalance = initialBalance;
-        } else {
-            expectedResult = true;
-            expectedBalance = initialBalance - amount;
-        }
         boolean actualResult = account.pay(amount);
         int actualBalance = account.getBalance();
 
@@ -160,28 +152,53 @@ public class SavingAccountTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {-1, 0, 1, 7999, 8000, 8001})
-    public void addTest(int amount) {
+    @ValueSource(ints = {-1, 0, 1001})
+    public void paymentFailTest(int amount) {
 
         SavingAccount account = new SavingAccount(initialBalance, minBalance, maxBalance, rate);
 
-        boolean expectedResult;
-        int expectedBalance;
+        boolean expectedResult = false;
+        int expectedBalance = initialBalance;
 
-        if ((initialBalance + amount) > maxBalance || amount <= 0) {
+        boolean actualResult = account.pay(amount);
+        int actualBalance = account.getBalance();
 
-            expectedResult = false;
-            expectedBalance = initialBalance;
-        } else {
-            expectedResult = true;
-            expectedBalance = initialBalance + amount;
-        }
+        Assertions.assertEquals(expectedResult, actualResult);
+        Assertions.assertEquals(expectedBalance, actualBalance);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {1, 7999, 8000})
+    public void addSuccessTest(int amount) {
+
+        SavingAccount account = new SavingAccount(initialBalance, minBalance, maxBalance, rate);
+
+        boolean expectedResult = true;
+        int expectedBalance = initialBalance + amount;
+
         boolean actualResult = account.add(amount);
         int actualBalance = account.getBalance();
 
         Assertions.assertEquals(expectedResult, actualResult);
         Assertions.assertEquals(expectedBalance, actualBalance);
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = {-1, 0, 8001})
+    public void addFailTest(int amount) {
+
+        SavingAccount account = new SavingAccount(initialBalance, minBalance, maxBalance, rate);
+
+        boolean expectedResult = false;
+        int expectedBalance = initialBalance;
+
+        boolean actualResult = account.add(amount);
+        int actualBalance = account.getBalance();
+
+        Assertions.assertEquals(expectedResult, actualResult);
+        Assertions.assertEquals(expectedBalance, actualBalance);
+    }
+
 
     @Test
     public void yearChange() {
