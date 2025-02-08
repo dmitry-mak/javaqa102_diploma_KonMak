@@ -208,7 +208,7 @@ public class SavingAccountTest {
 
         SavingAccount account = new SavingAccount(initialBalance, minBalance, maxBalance, rate);
 
-        int expectedChange = initialBalance * rate / 100;
+        int expectedChange = (int) ((double) initialBalance / 100 * rate);
         int actualChange = account.yearChange();
 
         Assertions.assertEquals(expectedChange, actualChange);
