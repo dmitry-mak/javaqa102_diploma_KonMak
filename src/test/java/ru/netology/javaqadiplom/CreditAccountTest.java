@@ -148,8 +148,9 @@ public class CreditAccountTest {
     //    должен рассчитывать годовой платеж за отрицательную сумму на балансе.
     @Test
     void yearChangeWithNegativeBalance() {
-        CreditAccount creditAccount = new CreditAccount(-100, 1000, 15);
+        CreditAccount creditAccount = new CreditAccount(0, 1000, 15);
 
+        creditAccount.pay(100);
         int expected = -15;
         Assertions.assertEquals(expected, creditAccount.yearChange());
     }
