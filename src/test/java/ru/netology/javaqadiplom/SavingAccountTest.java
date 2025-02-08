@@ -2,16 +2,8 @@ package ru.netology.javaqadiplom;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 public class SavingAccountTest {
-
-    int minBalance = 1_000;                     //
-    int initialBalance = minBalance + 1_000;    // изменяя эти поля можно нарушить актуальность
-    int maxBalance = minBalance + 9_000;        //          параметризованных тестов
-    int rate = 5;                               //
 
     @Test
     public void shouldAddLessThanMaxBalance() {
@@ -26,6 +18,7 @@ public class SavingAccountTest {
 
         Assertions.assertEquals(2_000 + 3_000, account.getBalance());
     }
+
 
     @ParameterizedTest
     @CsvSource(value = {
